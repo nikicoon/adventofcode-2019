@@ -11,6 +11,24 @@ BEGIN {
     RS = ","
 }
 { ops[i++] = $1 }
+function copy_array(a, b) {
+    delete a;
+    for ( i in b ) {
+	a[i] = b[i];
+    }
+}
+function try(noun, verb) {
+    fops[1] = noun;
+    fops[2] = verb;
+}
+function calculate_array(arr) {
+    for (i = 0; arr[i] != 99; i += 4) {
+        if (arr[i] == 1)
+            arr[arr[i+3]] = arr[arr[i+1]] + arr[arr[i+2]];
+        else if (arr[i] == 2)
+            arr[arr[i+3]] = arr[arr[i+1]] * arr[arr[i+2]];
+    }
+}
 END {
     ops[1] = 12;
     ops[2] = 2;
@@ -24,17 +42,43 @@ END {
     # walk through array ops. ops contains entries from inputfile.
     # break at ops[i] = 99.
     # for (i = 0; i <= val; i += 4) {
-    for (i = 0; ops[i] != 99; i += 4) {
-        if (ops[i] == 1)
-            ops[ops[i+3]] = ops[ops[i+1]] + ops[ops[i+2]];
-        else if (ops[i] == 2)
-            ops[ops[i+3]] = ops[ops[i+1]] * ops[ops[i+2]];
+    calculate_array(ops);
+    # for (i = 0; ops[i] != 99; i += 4) {
+    #     if (ops[i] == 1)
+    #         ops[ops[i+3]] = ops[ops[i+1]] + ops[ops[i+2]];
+    #     else if (ops[i] == 2)
+    #         ops[ops[i+3]] = ops[ops[i+1]] * ops[ops[i+2]];
 #	else if (ops[i] == 99)
 #	    break;
 #	else
 #	    print "Invalid input";
-    }
+    # }
 #    for (i=0; i<=NR;i++)
 #        print ops[i];
     print ops[0];
+    # ops[] is our original array, we need this ("initial memory").
+    # start each itteration with the original array ("reset memory").
+    # delete fops[] elements, copy ops[] into fops[].
+    # this block has to run repeatedly -> make it a function?
+    # function copy_array() {
+    # 	delete fops;
+    # 	for ( i in ops ) {
+    # 	    fops[i] = ops[i];
+    # 	}
+    # }
+    copy_array(fops, ops);
+    for ( i = 0; i < 100; i++) {
+	for (j = 0; j < 100; j++) {
+	    try(i, j);
+	    # print i " " j;
+	    calculate_array(fops);
+	    # print fops[0];
+	    # print 100 * i + j;
+	    if (fops[0] == 19690720) {
+		print 100 * i + j;
+		exit
+	    }
+	    copy_array(fops, ops);
+	}
+    }
 }
