@@ -42,6 +42,7 @@ END {
     # walk through array ops. ops contains entries from inputfile.
     # break at ops[i] = 99.
     # for (i = 0; i <= val; i += 4) {
+    copy_array(nops, ops);
     calculate_array(ops);
     # for (i = 0; ops[i] != 99; i += 4) {
     #     if (ops[i] == 1)
@@ -66,20 +67,22 @@ END {
     # 	    fops[i] = ops[i];
     # 	}
     # }
-    copy_array(fops, ops);
+    copy_array(fops, nops);
     for ( i = 0; i < 100; i++) {
 	for (j = 0; j < 100; j++) {
 	    try(i, j);
-	    # print i " " j;
+	    #print i " " j;
 	    calculate_array(fops);
 	    #print fops[0];
 	    #print 100 * i + j;
+	    # for (w=0; w<=NR;w++)
+	    # 	print fops[w];
 	    if (fops[0] == 19690720) {
 		print 100 * i + j;
 		exit;
 	    }
-	    #delete fops;
-	    copy_array(fops, ops);
+	    # delete fops;
+	    copy_array(fops, nops);
 	}
     }
 }
