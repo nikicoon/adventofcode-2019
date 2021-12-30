@@ -10,7 +10,7 @@
 BEGIN {
     RS = ","
 }
-{ ops[i++] = $1 }
+{ ops[k++] = $1 }
 function copy_array(a, b) {
     delete a;
     for ( q in b ) {
@@ -72,12 +72,13 @@ END {
 	    try(i, j);
 	    # print i " " j;
 	    calculate_array(fops);
-	    # print fops[0];
-	    # print 100 * i + j;
+	    #print fops[0];
+	    #print 100 * i + j;
 	    if (fops[0] == 19690720) {
-		print 100 * i + j
-		exit
+		print 100 * i + j;
+		exit;
 	    }
+	    #delete fops;
 	    copy_array(fops, ops);
 	}
     }
