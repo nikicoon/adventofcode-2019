@@ -13,8 +13,8 @@ BEGIN {
 { ops[i++] = $1 }
 function copy_array(a, b) {
     delete a;
-    for ( i in b ) {
-	a[i] = b[i];
+    for ( q in b ) {
+	a[q] = b[q];
     }
 }
 function try(noun, verb) {
@@ -22,11 +22,11 @@ function try(noun, verb) {
     fops[2] = verb;
 }
 function calculate_array(arr) {
-    for (i = 0; arr[i] != 99; i += 4) {
-        if (arr[i] == 1)
-            arr[arr[i+3]] = arr[arr[i+1]] + arr[arr[i+2]];
-        else if (arr[i] == 2)
-            arr[arr[i+3]] = arr[arr[i+1]] * arr[arr[i+2]];
+    for (p = 0; arr[p] != 99; p += 4) {
+        if (arr[p] == 1)
+            arr[arr[p+3]] = arr[arr[p+1]] + arr[arr[p+2]];
+        else if (arr[p] == 2)
+            arr[arr[p+3]] = arr[arr[p+1]] * arr[arr[p+2]];
     }
 }
 END {
@@ -75,7 +75,7 @@ END {
 	    # print fops[0];
 	    # print 100 * i + j;
 	    if (fops[0] == 19690720) {
-		print 100 * i + j;
+		print 100 * i + j
 		exit
 	    }
 	    copy_array(fops, ops);
